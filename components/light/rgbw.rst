@@ -43,6 +43,31 @@ perceived intensity of different colors will generally vary. This can be done by
         pin: D1
         max_power: 80%
 
+Color Interlock
+----------------
+
+With some LED bulbs, setting the RGB channels to maximum whilst wanting a white light will 
+have a undesired hue affect. Additionally, the brightness command may not work as expected 
+depending upon configuration, leaving users to adjust the white component level separately. 
+For these cases a new configration variable has been added: color_interlock. 
+
+Setting this variable to True will turn off RGB leds when white value is above 0 (or if they
+are to 255,255,255) and turn off white leds if color is not set to 255,255,255. This also 
+allows the brightness parameter to control the intensity of the white leds.
+
+
+.. code-block:: yaml
+
+    # Example configuration entry
+    light:
+      - platform: rgbw
+        name: "Livingroom Lights"
+        red: output_component1
+        green: output_component2
+        blue: output_component3
+        white: output_component4
+        color_interlock: True
+
 Configuration variables:
 ------------------------
 
@@ -53,6 +78,7 @@ Configuration variables:
 - **white** (**Required**, :ref:`config-id`): The id of the float :ref:`output` to use for the white channel.
 - **effects** (*Optional*, list): A list of :ref:`light effects <light-effects>` to use for this light.
 - **id** (*Optional*, :ref:`config-id`): Manually specify the ID used for code generation.
+- **color_interlock** (*Optional*, boolean): Prevent white being on at the same time as RGB leds.
 - All other options from :ref:`Light <config-light>`.
 
 See Also
